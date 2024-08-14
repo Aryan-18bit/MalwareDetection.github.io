@@ -1,0 +1,6 @@
+class Lists:
+    def __init__(self):
+        self.searchingLocation = []
+        self.searchResult = []
+        self.filePathtoDelete = []
+        self.file_path = None

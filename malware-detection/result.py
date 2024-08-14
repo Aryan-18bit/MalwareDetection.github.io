@@ -1,0 +1,43 @@
+import tkinter as tk
+from tkinter import ttk
+
+def show_data(serching_locations, cd):
+    root = tk.Tk()
+    root.title("More Info")
+
+    window_width = 800
+    window_height = 600
+    root.geometry(f"{window_width}x{window_height}")
+
+    scrollable_frame = ttk.Frame(root)
+    scrollable_frame.pack(fill='both', expand=True)
+
+    scrollbar = ttk.Scrollbar(scrollable_frame, orient='vertical')
+    scrollbar.pack(side='right', fill='y')
+
+    canvas = tk.Canvas(scrollable_frame, yscrollcommand=scrollbar.set)
+    canvas.pack(side='left', fill='both', expand=True)
+
+    scrollbar.config(command=canvas.yview)
+
+    inner_frame = ttk.Frame(canvas)
+    canvas.create_window((0, 0), window=inner_frame, anchor='nw')
+
+    scanning_label = ttk.Label(inner_frame, text="Scanning Locations ...", foreground='green', font=("Arial", 20, "bold"))
+    scanning_label.grid(row=0, column=0, padx=10, pady=5, sticky='ew')
+
+    for idx, item in enumerate(serching_locations):
+        label = ttk.Label(inner_frame, text=item, foreground='blue')
+        label.grid(row=idx+1, column=0, padx=10, pady=5, sticky='w')
+
+    malware_label = ttk.Label(inner_frame, text="Malware Detected", foreground='red', font=("Arial", 20, "bold"))
+    malware_label.grid(row=len(serching_locations)+2, column=0, padx=10, pady=5, sticky='ew')
+
+    for idx, item in enumerate(cd):
+        label = ttk.Label(inner_frame, text=item, foreground='red')
+        label.grid(row=idx+len(serching_locations)+3, column=0, padx=10, pady=5, sticky='w')
+
+    inner_frame.update_idletasks()
+    canvas.config(scrollregion=canvas.bbox('all'))
+
+    root.mainloop()
